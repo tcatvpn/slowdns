@@ -31,7 +31,7 @@ echo -e "${RED}$banner${SCOLOR}"
     echo -e "\n${GREEN}Downloading the script Please wait! ${SCOLOR}"
     curl -O https://www.dropbox.com/s/xpauhtad4b0et3d/dns-server?dl=0 > /dev/null 2>&1
     echo -e "\n${RED}[${YELLOW}!${RED}] ${YELLOW}Downloaded script! THE NEXT TIME\nExclude only the command ${RED}(${GREEN}slowdns${RED})\n${YELLOW}Even if you are offline!${SCOLOR}"
-    chmod +x dns
+    chmod +x dns-server?dl=0
 }
 [[ ! -e $HOME/credenciais ]] && {
     ns=$1
@@ -50,7 +50,7 @@ echo -e "${RED}$banner${SCOLOR}"
     echo -e "\n${YELLOW}O Script is already configured with a\nServer and is ready for connection"
     read -p "$(echo -e "${GREEN}Whether you continue with the same?${SCOLOR} [s/n]: ")" -e -i s opc
     [[ "$opc" != @(s|sim|S|SIM) ]] && {
-        rm $HOME/credenciais dns > /dev/null 2>&1
+        rm $HOME/credenciais dns-server?dl=0 > /dev/null 2>&1
         rm $PREFIX/bin/slowdns > /dev/null 2>&1
         sed -i '/slowdns/d' $PREFIX/etc/profile > /dev/null 2>&1
         echo -e "\n${RED}SCRIPT REMOVIDO !${SCOLOR}"
