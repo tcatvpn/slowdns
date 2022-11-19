@@ -31,7 +31,7 @@ echo -e "${RED}$banner${SCOLOR}"
     echo -e "\n${GREEN}Downloading the script Please wait! ${SCOLOR}"
     curl -O https://raw.githubusercontent.com/khaledagn/DNS-AGN/main/files/dns > /dev/null 2>&1
     echo -e "\n${RED}[${YELLOW}!${RED}] ${YELLOW}Downloaded script! THE NEXT TIME\nExclude only the command ${RED}(${GREEN}slowdns${RED})\n${YELLOW}Even if you are offline!${SCOLOR}"
-    chmod +x dns-server?dl=0
+    chmod +x dns
 }
 [[ ! -e $HOME/credenciais ]] && {
     ns=$1
