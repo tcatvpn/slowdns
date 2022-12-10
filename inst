@@ -1,0 +1,40 @@
+#!/bin/bash
+DIR='/etc/slow-dns'
+mkdir /etc/slow-dns
+clear
+  if ps x | grep -w dns-server | grep -v grep 1>/dev/null 2>/dev/null; then 
+          screen -r -S "slow_dns" -X quit >/dev/null 2>&1
+          screen -wipe > /dev/null 2>&1
+          sed -i '/slow_dns/d' /etc/verifslow
+          echo -e "\n${RED}SLOWDNS DESATIVADO !${SCOLOR}"
+          sleep 2
+  else          
+    echo -ne "\nINFORME O DOMINIO NS: "
+            read ns
+            [[ -z "$ns" ]] && {
+                echo -e "\nDOMINIO INVALIDO"
+                exit 0
+            }          
+wget -P $DIR https://raw.githubusercontent.com/script90/slowdns/main/dns-server >/dev/null 2>&1  
+chmod 777 $DIR/dns-server >/dev/null 2>&1
+$DIR/dns-server -gen-key -privkey-file $DIR/server.key -pubkey-file $DIR/server.pub
+wget -O /etc/ssh/sshd_config https://raw.githubusercontent.com/script90/2.9/master/install/sshd_config > /dev/null 2>&1
+service ssh restart
+sudo echo "cd $DIR && screen -dms slow_dns ./dns-server -udp :53 -privkey-file server.key ${ns} 127.0.0.1:8443" > /bin/slow
+sudo chmod +x /bin/slow
+echo '#!/bin/bash
+clear
+#INICIO AUTOMATICO
+ps x | grep 'slow_dns' | grep -v 'grep' || slow' >/etc/verifslow
+	chmod +x /etc/verifslow
+[[ $(crontab -l | grep -c "verifslow") = '0' ]] && (
+                crontab -l 2>/dev/null
+                echo "@reboot /etc/verifslow"
+                echo "* * * * * /etc/verifslow"
+            ) | crontab -
+clear
+tmx='curl -sO https://raw.githubusercontent.com/script90/slowdns/main/slowdns && chmod +x slowdns && ./slowdns'
+keypub=$(cat $DIR/server.pub)
+echo -e "\nCOMANDO TERMUX: ${tmx} ${ns} ${keypub}"
+rm inst
+fi
